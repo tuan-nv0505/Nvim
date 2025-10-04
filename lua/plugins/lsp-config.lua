@@ -42,7 +42,20 @@ return {
             })
             lspconfig.clangd.setup({
                 capabilities = capabilities,
+                root_dir = lspconfig.util.root_pattern(
+                    "compile_commands.json",
+                    "compile_flags.txt",
+                    ".git"
+                )
             })
+            lspconfig.cmake.setup {
+                cmd = { "cmake-language-server" },
+                filetypes = { "cmake" },
+                init_options = {
+                    buildDirectory = "build"
+                },
+                oot_dir = lspconfig.util.root_pattern("CMakeLists.txt", ".git")
+            }
 
             lspconfig.lua_ls.setup({ capabilities = capabilities })
             local opts = { noremap = true, silent = true }
